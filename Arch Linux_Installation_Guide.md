@@ -411,6 +411,7 @@ Reboot, then, make sure both are enabled:
 # cat /sys/kernel/debug/dri/0/i915_guc_load_status
 ```
 
+============================================================================================================================
 
 thanks to
 archwiki
