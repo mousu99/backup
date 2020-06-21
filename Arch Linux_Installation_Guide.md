@@ -106,11 +106,36 @@ arch-chroot /mnt /bin/zsh #for zsh shell
 
 ## Setting Locale
 ```
-nano /mnt/etc/locale.gen #OR if doing it from chroot system
+nano /mnt/etc/locale.gen
+#OR if doing it from chroot system
 nvim /etc/locale.gen
 ```
 Uncomment this
 ```
 #en_GB.UTF-8
 #id_ID.UTF-8
+```
+create locale.conf
+```
+nano /mnt/etc/locale.conf
+```
+add this
+```
+LANG=en_GB.UTF-8
+LC_TIME=id_ID.UTF-8
+LC_COLLATE=C
+```
+
+### Hostname and hosts
+hostname
+```
+nano /mnt/etc/hostname
+#create any PC-name
+```
+hosts
+```
+nano /mnt/etc/hosts
+127.0.0.1 localhost
+::1 localhost
+127.0.1.1 PC-name.localdomain PC-name
 ```
