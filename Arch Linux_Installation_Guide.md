@@ -55,25 +55,62 @@ uncomment and add
 ILoveCandy
 
 #[multilib]
-# this one below too
+#and this one below too
 ```
 
 ### Installing Base Package
+
 i usually use systemd-boot for booting, or refind sometimes, and its already installed by default
 ```
-pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware zsh neovim networkmanager intel-ucode git systemd-swap xdg-user-dirs
+pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware zsh neovim networkmanager intel-ucode git systemd-swap xdg-user-dirs light
 ```
 base mean base package needed for system
+
 base-devel for building package from AUR
+
 linux-zen is the kernel with more juice added that the default one
+
 linux-zen-headers needed for installing nvidia driver
+
 linux-firmware is firmware needed by kernel
+
 zsh as default shell
+
 neovim for code editor
+
 networkmanager for managing network
+
 systemd-swap for automatic swap management
+
 intel-ucode is the CPU microcode, or amd-ucode
+
 git is needed for building yay
+
 xdg-user-dirs for automatic home management
 
+light for backlight
 
+### Generate File System Table
+```
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+
+
+### Editing and uncommenting some files
+usually im editing files from mountpoint, but many guides prefer to do it in chroot system
+
+### Chroot system
+```
+arch-chroot /mnt /bin/zsh #for zsh shell
+```
+
+## Setting Locale
+```
+nano /mnt/etc/locale.gen #OR if doing it from chroot system
+nvim /etc/locale.gen
+```
+Uncomment this
+```
+#en_GB.UTF-8
+#id_ID.UTF-8
+```
