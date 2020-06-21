@@ -360,5 +360,63 @@ add
 blacklist iTCO_wdt
 blacklist iTCO_vendor_support
 ```
-### Install Powerlevel10k
+### Install yay, freetype2-cleartype, alacritty and Powerlevel10k
 ### Install xorg-server xorg-xrdb sddm wm pulseaudio-alsa and other useful application
+### Install driver
+for nvidia
+```
+mesa nvidia-dkms nvidia-prime
+```
+### Using the modesetting driver
+
+Arch Wiki reference: https://wiki.archlinux.org/index.php/Kernel_mode_setting#Early_KMS_start
+
+I use the kernel modesetting driver for my Intel processor. To use it, it's sufficient to make sure the `xf86-video-intel` package is not installed. This is important because how I set up HuC / GuC depends on the kernel modesetting being used.
+
+
+### Enabling Early KMS
+
+Arch Wiki reference: https://wiki.archlinux.org/index.php/Kernel_mode_setting#Early_KMS_start https://wiki.archlinux.org/index.php/Mkinitcpio#Image_creation_and_activation
+
+I decided to start kernel modesetting during the initramfs stage. To do this, you can just add the `i915` module to `/etc/mkinitcpio.conf` like this:
+
+```
+MODULES=(i915)
+```
+
+And then
+
+```
+# mkinitcpio -p linux
+```
+
+Finally, reboot.
+
+### Enabling HuC / GuC firmware loading
+
+Arch Wiki reference: https://wiki.archlinux.org/index.php/Intel_graphics#Enable_GuC_/_HuC_firmware_loading
+
+Since I have a Kaby Lake processor, some video features require updated GPU firmware that is not provided by default because it doesn't play nicely with all hardware. I'm happy to report no problems on Dell Inspron 5567.
+
+Since I have set up early KMS, it's sufficient to create a file called `/etc/modprobe.d/i915.conf` the contents of which should be:
+
+```
+options i915 enable_guc=2
+```
+
+Reboot, then, make sure both are enabled:
+
+```
+# cat /sys/kernel/debug/dri/0/i915_huc_load_status
+# cat /sys/kernel/debug/dri/0/i915_guc_load_status
+```
+
+
+thanks to
+archwiki
+manjaro wiki
+forums
+reddit
+https://github.com/Aureau/dotfiles/edit/master/Arch%20Linux_Installation_Guide.md
+https://gist.github.com/lbrame/1678c00213c2bd069c0a59f8733e0ee6
+https://wiki.manjaro.org/index.php?title=Improve_Font_Rendering
