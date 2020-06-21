@@ -139,3 +139,57 @@ nano /mnt/etc/hosts
 ::1 localhost
 127.0.1.1 PC-name.localdomain PC-name
 ```
+sudoers
+```
+nano /mnt/etc/sudoers #uncomment 
+# %wheel ALL=(ALL) ALL
+```
+mkinitcpio.conf
+```
+nano /mnt/etc/mkinitcpio.conf
+#change base and udev to systemd, actually i dont really sure if removing base hooks is safe or not, and i'm only experiencing a hang shutdown just once
+```
+
+### Chroot into system
+just like that step u just read
+
+### Configuring time
+```
+ln -sf /ush/share/zoneinfo/Asia/Jakarta /etc/localtime
+hwclock --systohc
+```
+
+### Localization
+```
+locale-gen
+```
+
+### Add user and change password
+```
+useradd -m -g users -G wheel,video -c "Your Name" username
+passwd #change root password
+passwd username #change user password
+```
+
+### Enable NetworkManager
+```
+systemctl enable NetworkManager.service
+```
+
+### Install Bootloader
+i'm using systemd-boot for simple bootloader
+```
+bootctl install
+```
+then you need to create a boot entry
+```
+nano /boot/loader/entries/archlinux.conf
+```
+add this line
+```
+title   Arch Linux
+linux   /vmlinuz-linux-zen
+initrd  /intel-ucode.img #or amd for microcode
+initrd  /initramfs-linux-zen.img
+options root=/dev/sdXy rw
+```
