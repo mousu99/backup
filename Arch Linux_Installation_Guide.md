@@ -103,6 +103,11 @@ usually im editing files from mountpoint, but many guides prefer to do it in chr
 ```
 arch-chroot /mnt /bin/zsh #for zsh shell
 ```
+install oh-my-zsh
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sH)"
+```
+or just google it
 
 ## Setting Locale
 ```
@@ -152,7 +157,7 @@ nano /mnt/etc/mkinitcpio.conf
 
 ### Chroot into system
 just like that step u just read
-
+[`this one brother`](https://github.com/Aureau/dotfiles/blob/master/Arch%20Linux_Installation_Guide.md#chroot-system)
 ### Configuring time
 ```
 ln -sf /ush/share/zoneinfo/Asia/Jakarta /etc/localtime
@@ -169,6 +174,7 @@ locale-gen
 useradd -m -g users -G wheel,video -c "Your Name" username
 passwd #change root password
 passwd username #change user password
+chsh -s /usr/bin/zsh username
 ```
 
 ### Enable NetworkManager
@@ -191,5 +197,168 @@ title   Arch Linux
 linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img #or amd for microcode
 initrd  /initramfs-linux-zen.img
-options root=/dev/sdXy rw
+options root=/dev/sdXy rw nowatchdog
 ```
+
+### Edit some stuff
+journald
+```
+nano /etc/systemd/journald.conf
+```
+edit
+```
+SystemMaxUse=50M
+```
+coredump
+```
+nano /etc/systemd/coredump.conf
+```
+edit
+```
+Storage=none
+```
+restrict kernel
+```
+nano /etc/sysctl.d/51-dmesg-restrict.conf
+```
+add
+```
+kernel.dmesg_restrict = 1
+```
+
+### Unmount and shutdown
+exit chroot
+```
+exit
+```
+unmount and shutdown
+```
+unmount -R /mnt
+poweroff
+```
+
+#### Improve Font Rendering
+
+Make your system fonts great again! Improve your fonts for system-wide usage without installing a patched font library packages like the `Infinality`.
+
+1. If you haven't already, install these fonts:
+
+	```bash
+	$ sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
+	```
+
+2. Enable font presets by creating symbolic links:
+
+	```bash
+	$ sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
+	$ sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
+	$ sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
+	```
+#### Font Installation
+
+Let's be honest, font rendering in Linux *is not that* good by default. So let's make them great again! Let's start with installing some beautiful fonts.
+
+```bash
+# Basic fonts
+$ sudo pacman -S ttf-dejavu ttf-liberation noto-fonts noto-fonts-emoji otf-san-francisco-pro otf-sfmono-patched ttf-joypixels
+```
+  
+#### Improve Font Rendering
+
+Make your system fonts great again! Improve your fonts for system-wide usage without installing a patched font library packages like the `Infinality`.
+
+1. If you haven't already, install these fonts:
+
+	```bash
+	$ sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
+	```
+
+2. Enable font presets by creating symbolic links:
+
+	```bash
+	$ sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
+	$ sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
+	$ sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
+	```
+Let's then add the following line to `/etc/profile.d/freetype2.sh`:
+
+```
+export FREETYPE_PROPERTIES="truetype:interpreter-version=40"
+```
+
+Please note that the way I did this is not endorsed by the Arch Wiki and it's a way I found to make the change permament. Unless you know how to revert all of this, you should just stick to what the Arch Wiki does, which I did too anyway.
+
+Create the file `~/.config/fontconfig/conf.d/20-no-embedded.conf` and make it look like the following:
+
+```
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <match target="font">
+    <edit name="embeddedbitmap" mode="assign">
+      <bool>false</bool>
+    </edit>
+  </match>
+</fontconfig>
+```
+A little configuration maybe required to render the fonts in an optimal manner. Follow the steps illustrated below.
+
+1. Create the file /etc/fonts/local.conf
+```
+sudo nano /etc/fonts/local.conf
+```
+Paste the following content in the file-
+```
+<match target="font">
+  <edit name="autohint" mode="assign">
+    <bool>true</bool>
+  </edit>
+  <edit name="hinting" mode="assign">
+    <bool>true</bool>
+  </edit>
+  <edit mode="assign" name="hintstyle">
+    <const>hintslight</const>
+  </edit>
+  <edit mode="assign" name="lcdfilter">
+   <const>lcddefault</const>
+  </edit>
+  <edit name="embeddedbitmap" mode="assign">
+    <bool>false</bool>
+  </edit>
+</match>
+```
+After that save the file.
+2. Open/Create ~/.Xresources file in text editor:
+```
+nano ~/.Xresources
+```
+Delete current content (if any) and paste in it:
+```
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+```
+
+Save changes in the file.
+
+
+3.Run the following command in terminal:
+```
+xrdb -merge ~/.Xresources
+```
+### Disable Watchdog Timer
+```
+nvim /etc/modprobe.d/blacklist.conf 
+```
+# Blacklist unwanted drivers
+add
+```
+blacklist iTCO_wdt
+blacklist iTCO_vendor_support
+```
+### Install Powerlevel10k
+### Install xorg-server xorg-xrdb sddm wm pulseaudio-alsa and other useful application
