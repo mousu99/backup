@@ -349,6 +349,7 @@ blacklist iTCO_vendor_support
 ```
 ### Install yay, freetype2-cleartype, alacritty and Powerlevel10k
 ### Install xorg-server xorg-xrdb sddm wm pulseaudio-alsa and other useful application
+### Configure SWAP
 ### Install driver
 for nvidia
 ```
