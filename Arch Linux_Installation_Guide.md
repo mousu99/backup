@@ -90,11 +90,11 @@ xdg-user-dirs for automatic home management
 
 light for backlight
 
-### Generate File System Table
+### Generate and edit File System Table
 ```
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
-
+change to noatime, and add commit=60
 
 ### Editing and uncommenting some files
 usually im editing files from mountpoint, but many guides prefer to do it in chroot system
@@ -288,19 +288,6 @@ export FREETYPE_PROPERTIES="truetype:interpreter-version=40"
 
 Please note that the way I did this is not endorsed by the Arch Wiki and it's a way I found to make the change permament. Unless you know how to revert all of this, you should just stick to what the Arch Wiki does, which I did too anyway.
 
-Create the file `~/.config/fontconfig/conf.d/20-no-embedded.conf` and make it look like the following:
-
-```
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <match target="font">
-    <edit name="embeddedbitmap" mode="assign">
-      <bool>false</bool>
-    </edit>
-  </match>
-</fontconfig>
-```
 A little configuration maybe required to render the fonts in an optimal manner. Follow the steps illustrated below.
 
 1. Create the file /etc/fonts/local.conf
