@@ -296,23 +296,27 @@ sudo nano /etc/fonts/local.conf
 ```
 Paste the following content in the file-
 ```
-<match target="font">
-  <edit name="autohint" mode="assign">
-    <bool>true</bool>
-  </edit>
-  <edit name="hinting" mode="assign">
-    <bool>true</bool>
-  </edit>
-  <edit mode="assign" name="hintstyle">
-    <const>hintslight</const>
-  </edit>
-  <edit mode="assign" name="lcdfilter">
-   <const>lcddefault</const>
-  </edit>
-  <edit name="embeddedbitmap" mode="assign">
-    <bool>false</bool>
-  </edit>
-</match>
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+	<match target="font">
+	  <edit name="autohint" mode="assign">
+		<bool>true</bool>
+	  </edit>
+	  <edit name="hinting" mode="assign">
+		<bool>true</bool>
+	  </edit>
+	  <edit mode="assign" name="hintstyle">
+		<const>hintslight</const>
+	  </edit>
+	  <edit mode="assign" name="lcdfilter">
+	   <const>lcddefault</const>
+	  </edit>
+	  <edit name="embeddedbitmap" mode="assign">
+		<bool>false</bool>
+	  </edit>
+	</match>
+</fontconfig>
 ```
 After that save the file.
 2. Open/Create ~/.Xresources file in text editor:
