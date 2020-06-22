@@ -384,25 +384,6 @@ And then
 
 Finally, reboot.
 
-### Enabling HuC / GuC firmware loading
-
-Arch Wiki reference: https://wiki.archlinux.org/index.php/Intel_graphics#Enable_GuC_/_HuC_firmware_loading
-
-Since I have a Kaby Lake processor, some video features require updated GPU firmware that is not provided by default because it doesn't play nicely with all hardware. I'm happy to report no problems on Dell Inspron 5567.
-
-Since I have set up early KMS, it's sufficient to create a file called `/etc/modprobe.d/i915.conf` the contents of which should be:
-
-```
-options i915 enable_guc=2
-```
-
-Reboot, then, make sure both are enabled:
-
-```
-# cat /sys/kernel/debug/dri/0/i915_huc_load_status
-# cat /sys/kernel/debug/dri/0/i915_guc_load_status
-```
-
 ================================================================================================
 
 thanks to
