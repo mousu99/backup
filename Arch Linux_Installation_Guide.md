@@ -300,21 +300,21 @@ Paste the following content in the file-
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
 	<match target="font">
-	  <edit name="autohint" mode="assign">
-		<bool>true</bool>
-	  </edit>
-	  <edit name="hinting" mode="assign">
-		<bool>true</bool>
-	  </edit>
-	  <edit mode="assign" name="hintstyle">
-		<const>hintslight</const>
-	  </edit>
-	  <edit mode="assign" name="lcdfilter">
-	   <const>lcddefault</const>
-	  </edit>
-	  <edit name="embeddedbitmap" mode="assign">
-		<bool>false</bool>
-	  </edit>
+		<edit name="autohint" mode="assign">
+			<bool>true</bool>
+		</edit>
+		<edit name="hinting" mode="assign">
+			<bool>true</bool>
+		</edit>
+		<edit mode="assign" name="hintstyle">
+			<const>hintslight</const>
+		</edit>
+		<edit mode="assign" name="lcdfilter">
+			<const>lcddefault</const>
+		</edit>
+		<edit name="embeddedbitmap" mode="assign">
+			<bool>false</bool>
+		</edit>
 	</match>
 </fontconfig>
 ```
