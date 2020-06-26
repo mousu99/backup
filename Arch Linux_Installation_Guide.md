@@ -95,7 +95,9 @@ light for backlight
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 change to noatime, and add commit=60
-
+```
+nvim /etc/fstab
+```
 ### Editing and uncommenting some files
 usually im editing files from mountpoint, but many guides prefer to do it in chroot system
 
@@ -111,8 +113,6 @@ or just google it
 
 ## Setting Locale
 ```
-nano /mnt/etc/locale.gen
-#OR if doing it from chroot system
 nvim /etc/locale.gen
 ```
 Uncomment this
@@ -122,7 +122,7 @@ Uncomment this
 ```
 create locale.conf
 ```
-nano /mnt/etc/locale.conf
+nvim /etc/locale.conf
 ```
 add this
 ```
@@ -134,34 +134,25 @@ LC_COLLATE=C
 ### Hostname and hosts
 hostname
 ```
-nano /mnt/etc/hostname
+nvim /etc/hostname
 #create any PC-name
 ```
 hosts
 ```
-nano /mnt/etc/hosts
+nvim /etc/hosts
 127.0.0.1 localhost
 ::1 localhost
 127.0.1.1 PC-name.localdomain PC-name
 ```
 sudoers
 ```
-nano /mnt/etc/sudoers #uncomment 
+nvim /etc/sudoers #uncomment 
 # %wheel ALL=(ALL) ALL
 ```
 mkinitcpio.conf
 ```
-nano /mnt/etc/mkinitcpio.conf
+nvim /etc/mkinitcpio.conf
 #change base and udev to systemd, actually i dont really sure if removing base hooks is safe or not, and i'm only experiencing a hang shutdown just once
-```
-
-### Chroot into system
-just like that step u just read
-[`this one brother`](https://github.com/Aureau/dotfiles/blob/master/Arch%20Linux_Installation_Guide.md#chroot-system)
-### Configuring time
-```
-ln -sf /ush/share/zoneinfo/Asia/Jakarta /etc/localtime
-hwclock --systohc
 ```
 
 ### Localization
@@ -237,23 +228,6 @@ unmount -R /mnt
 poweroff
 ```
 
-#### Improve Font Rendering
-
-Make your system fonts great again! Improve your fonts for system-wide usage without installing a patched font library packages like the `Infinality`.
-
-1. If you haven't already, install these fonts:
-
-	```bash
-	$ sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
-	```
-
-2. Enable font presets by creating symbolic links:
-
-	```bash
-	$ sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
-	$ sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
-	$ sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
-	```
 #### Font Installation
 
 Let's be honest, font rendering in Linux *is not that* good by default. So let's make them great again! Let's start with installing some beautiful fonts.
@@ -265,15 +239,7 @@ $ sudo pacman -S ttf-dejavu ttf-liberation noto-fonts noto-fonts-emoji otf-san-f
   
 #### Improve Font Rendering
 
-Make your system fonts great again! Improve your fonts for system-wide usage without installing a patched font library packages like the `Infinality`.
-
-1. If you haven't already, install these fonts:
-
-	```bash
-	$ sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
-	```
-
-2. Enable font presets by creating symbolic links:
+1. Enable font presets by creating symbolic links:
 
 	```bash
 	$ sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
@@ -335,7 +301,6 @@ Xft.lcdfilter: lcddefault
 ```
 
 Save changes in the file.
-
 
 3.Run the following command in terminal:
 ```
