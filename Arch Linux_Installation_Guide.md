@@ -4,22 +4,22 @@
 
 never had an experience how to do it without wifi, so ...
 
-```
-wifi-menu
+```zsh
+$ wifi-menu
 ```
 
 ### Update the system clock
 
 i set to Jakarta because i live in Indonesia
 
-```
-timedatectl set-ntp true
-timedatectl set-timezone Asia/Jakarta
+```zsh
+$ timedatectl set-ntp true
+$ timedatectl set-timezone Asia/Jakarta
 ```
 
 ### Partitioning Disk
 
-```
+```zsh
 cgdisk /dev/sdXy
 ```
 
