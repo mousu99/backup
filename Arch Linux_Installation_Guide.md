@@ -459,7 +459,17 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 # Fix slowness of pastes
 
-================================================================================================
+## install yay
+```zsh
+git clone https://aur.archlinux.org/yay.git
+makepkg -si
+```
+
+## install needed stuff
+```zsh
+yay -Syu aic94xx-firmware wd719x-firmware mesa xorg-server xorg-xrdb acpi alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth sddm nvidia-dkms nvidia-prime ntfs-3g alacritty nnn mpv picom awesome-luajit-git google-chrome --noconfirm --removemake
+```
+===============================================================================================
 
 thanks to
 archwiki
