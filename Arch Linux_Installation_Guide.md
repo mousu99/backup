@@ -1,82 +1,83 @@
 # Arch Linux Installation Guide
 
-### Connect to Internet
+## Connect to Internet
 
-never had an experience how to do it without wifi, so ...
-
-```zsh
-$ wifi-menu
-```
-
-### Update the system clock
-
-i set to Jakarta because i live in Indonesia
+I've never had an experience how to do it without wifi, so...
 
 ```zsh
-$ timedatectl set-ntp true
-$ timedatectl set-timezone Asia/Jakarta
+wifi-menu
 ```
 
-### Partitioning Disk
+## Update The System Clock
+
+I set it to Jakarta because i live in Indonesia, and it is my nearest city.
 
 ```zsh
-cgdisk /dev/sdXy
+timedatectl set-ntp true
+timedatectl set-timezone Asia/Jakarta
 ```
 
-### Format and mounting
+## Partitioning Disk
 
-```
-mkswap /dev/sdXy
-mkfs.fat -F32 /dev/sdXy
-mkfs.ext4 /dev/sdXy
+I'm using "cgdisk" because my disk is GPT.
+The "Xy" could be anything according to your disk.
+
+```zsh
+cgdisk /dev/Xy
 ```
 
-mounting
+### Formatting Disk
 
+```zsh
+mkswap /dev/Xy
+mkfs.fat -F32 /dev/Xy
+mkfs.ext4 /dev/Xy
 ```
-mount /dev/sdXy /mnt
+
+## Mounting Disk
+
+```zsh
+mount /dev/Xy /mnt
 mkdir /mnt/{home,boot}
-mount /dev/sdXy /mnt/home
-mount /dev/sdXy /mnt/boot
+mount /dev/Xy /mnt/home
+mount /dev/Xy /mnt/boot
 ```
 
-### Pacman Mirror and stuff
+## Editing Pacman Stuff
 
-install reflector
+### Choose Best Mirror
 
-```
+Install Reflector
+
+```zsh
 pacman -Sy reflector
 ```
 
-choose best mirror
-Singapore and German mirror are fast
+Usually the nearest country had an amazing speed.
 
-```
+```zsh
 reflector --verbose -c Indonesia -c Singapore -c Germany -a 7 -p https --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-edit pacman.conf
+### Editing Pacman Configuration
 
-```
+```zsh
 nano /etc/pacman.conf
 ```
 
-uncomment and add
+Uncomment these line
 
-```
-#Color
-ILoveCandy
-
+```zsh
 #[multilib]
 #and this one below too
 ```
 
-### Installing Base Package
+## Installing Base Package
 
-i usually use systemd-boot for booting, or refind sometimes, and its already installed by default
+Usually I'm using systemd-boot for booting and it's already installed by default. But sometimes i use refind for multi boot purpose.
 
-```
-pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware zsh neovim networkmanager intel-ucode git systemd-swap xdg-user-dirs light
+```zsh
+pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware intel-ucode zsh systemd-swap xdg-user-dirs git light networkmanager neovim
 ```
 
 base mean base package needed for system
@@ -105,79 +106,107 @@ xdg-user-dirs for automatic home management
 
 light for backlight
 
-### Generate and edit File System Table
+## Generate File System Table (FSTAB)
 
-```
+```zsh
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-change to noatime, and add commit=60
+## Chroot into system
 
-```
-nvim /etc/fstab
-```
+Chrooting into mount point using zsh shell
 
-### Editing and uncommenting some files
-
-usually im editing files from mountpoint, but many guides prefer to do it in chroot system
-
-### Chroot system
-
-```
-arch-chroot /mnt /bin/zsh #for zsh shell
+```zsh
+arch-chroot /mnt /bin/zsh
 ```
 
-install oh-my-zsh
+## Install oh-my-zsh
 
-```
+```zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-or just google it
+### Time zone
 
-## Setting Locale
-
+Set the time zone:
+```zsh
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 ```
+
+Run hwclock to generate /etc/adjtime:
+
+```zsh
+hwclock --systohc
+```
+
+This command assumes the hardware clock is set to UTC.
+### Localization
+Edit /etc/locale.gen
+
+```zsh
 nvim /etc/locale.gen
 ```
 
 Uncomment this
 
-```
+```zsh
 #en_GB.UTF-8
 #id_ID.UTF-8
 ```
 
-create locale.conf
+Run
 
+```zsh
+locale-gen
 ```
+
+Create locale.conf file
+
+```zsh
 nvim /etc/locale.conf
 ```
 
 add this
 
-```
+```zsh
 LANG=en_GB.UTF-8
 LC_TIME=id_ID.UTF-8
 LC_COLLATE=C
 ```
 
-### Hostname and hosts
+### Network configuration
 
-hostname
-
-```
+Create the hostname file:
+```zsh
 nvim /etc/hostname
-#create any PC-name
 ```
 
-hosts
+Add any word as hostname
 
+```zsh
+myhostname
 ```
+
+Add matching entries to hosts:
+
+```zsh
 nvim /etc/hosts
-127.0.0.1 localhost
-::1 localhost
-127.0.1.1 PC-name.localdomain PC-name
+```
+
+Add these line:
+
+```
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	myhostname.localdomain	myhostname
+```
+
+If the system has a permanent IP address, it should be used instead of 127.0.1.1.
+
+change to noatime, and add commit=60
+
+```
+nvim /etc/fstab
 ```
 
 sudoers
