@@ -437,6 +437,16 @@ blacklist iTCO_vendor_support
 
 ### Configure SWAP
 
+```
+nvim /etc/sysctl.d/99-sysctl.conf
+```
+write
+```
+vm.swappiness = 10
+vm.vfs_cache_pressure = 50
+#vm.dirty_ratio = 3
+```
+
 ### Install driver
 
 for nvidia
