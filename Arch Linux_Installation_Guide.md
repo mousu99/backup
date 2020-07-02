@@ -312,6 +312,32 @@ add
 kernel.dmesg_restrict = 1
 ```
 
+### Disable Watchdog Timer
+
+```
+nvim /etc/modprobe.d/blacklist.conf
+```
+
+# Blacklist unwanted drivers
+
+add
+
+```
+blacklist iTCO_wdt
+blacklist iTCO_vendor_support
+```
+### Configure SWAP
+
+```
+nvim /etc/sysctl.d/99-sysctl.conf
+```
+write
+```
+vm.swappiness = 5
+vm.vfs_cache_pressure = 50
+#vm.dirty_ratio = 3
+```
+
 ### Unmount and shutdown
 
 exit chroot
@@ -416,36 +442,9 @@ Save changes in the file.
 xrdb -merge ~/.Xresources
 ```
 
-### Disable Watchdog Timer
-
-```
-nvim /etc/modprobe.d/blacklist.conf
-```
-
-# Blacklist unwanted drivers
-
-add
-
-```
-blacklist iTCO_wdt
-blacklist iTCO_vendor_support
-```
-
 ### Install yay, freetype2-cleartype, alacritty and Powerlevel10k
 
 ### Install xorg-server xorg-xrdb sddm wm pulseaudio-alsa and other useful application
-
-### Configure SWAP
-
-```
-nvim /etc/sysctl.d/99-sysctl.conf
-```
-write
-```
-vm.swappiness = 10
-vm.vfs_cache_pressure = 50
-#vm.dirty_ratio = 3
-```
 
 ### Install driver
 
