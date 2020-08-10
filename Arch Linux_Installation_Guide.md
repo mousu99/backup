@@ -507,6 +507,21 @@ makepkg -si
 ```zsh
 yay -Syu aic94xx-firmware wd719x-firmware mesa xorg-server xorg-xrdb acpi alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth sddm nvidia-dkms nvidia-prime ntfs-3g alacritty nnn mpv picom awesome-luajit-git google-chrome --noconfirm --removemake
 ```
+
+## Set Touchpad Rules
+```sudo nvim /etc/X11/xorg.conf.d/30-touchpad.conf```
+
+add these lines
+```
+Section "InputClass"
+    Identifier "Touchpad Rules"
+    Driver "libinput"
+    MatchIsTouchpad "on"
+    Option "Tapping" "on"
+    Option "NaturalScrolling" "true"
+EndSection
+```
+
 ===============================================================================================
 
 thanks to
