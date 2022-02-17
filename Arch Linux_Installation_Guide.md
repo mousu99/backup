@@ -77,7 +77,7 @@ Uncomment these line
 Usually I'm using systemd-boot for booting and it's already installed by default. But sometimes i use refind for multi boot purpose.
 
 ```zsh
-pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware intel-ucode zsh systemd-swap xdg-user-dirs git light networkmanager neovim
+pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware intel-ucode zsh zram-generator xdg-user-dirs git light networkmanager neovim
 ```
 
 base mean base package needed for system
@@ -242,12 +242,6 @@ chsh -s /usr/bin/zsh username
 
 ```zsh
 systemctl enable NetworkManager.service
-```
-
-### Enable systemd-swap
-
-```zsh
-$ systemctl enable systemd-swap.service
 ```
 
 ### Install Bootloader
@@ -442,7 +436,7 @@ Save changes in the file.
 xrdb -merge ~/.Xresources
 ```
 
-### Install yay, freetype2-cleartype, alacritty and Powerlevel10k
+### Install paru, freetype2-cleartype, kitty and Powerlevel10k
 
 ### Install xorg-server xorg-xrdb sddm wm pulseaudio-alsa and other useful application
 
@@ -495,11 +489,11 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 ```
-# Fix slowness of pastes
 
-## install yay
+## install paru
 ```zsh
-git clone https://aur.archlinux.org/yay.git
+git clone https://aur.archlinux.org/paru.git
+cd paru
 makepkg -si
 ```
 
