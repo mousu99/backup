@@ -1,0 +1,9 @@
+[Unit]
+Description=Keyboard Chattering Fix
+
+[Service]
+ExecStart=/usr/bin/python /home/papatongman/.local/bin/chattering_fix.py /dev/input/by-id/usb-HID_Keyboard_HID_Keyboard-event-kbd 30
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
